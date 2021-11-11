@@ -20,7 +20,7 @@ async function run() {
         await client.connect();
         const database = client.db('ShoeZone');
         const collectionUser = database.collection('users');
-        const collectionService = database.collection('services');
+        const collectionProduct = database.collection('products');
         const collectionOrder = database.collection('orders');
         const collectionReview = database.collection('reviews');
 
@@ -66,23 +66,23 @@ async function run() {
 
 
         // create or insert services to database 
-        app.post('/services', async (req, res) => {
-            const service = req.body;
-            const result = await collectionService.insertOne(service);
+        app.post('/products', async (req, res) => {
+            const product = req.body;
+            const result = await collectionProduct.insertOne(product);
             res.json(result);
         });
 
         // get all data from server 
-        app.get('/services', async (req, res) => {
-            const services = await collectionService.find({}).toArray();
-            res.send(services);
+        app.get('/products', async (req, res) => {
+            const result = await collectionProduct.find({}).toArray();
+            res.send(result);
         });
 
         //find a single data using id
         app.get('/details/:id', async (req, res) => {
             const id = req.params.id;
             const filter = { _id: ObjectId(id) };
-            const service = await collectionService.findOne(filter);
+            const service = await collectionProduct.findOne(filter);
             res.send(service);
         });
 
