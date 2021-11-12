@@ -6,7 +6,6 @@ const ObjectId = require('mongodb').ObjectId;
 require('dotenv').config()
 const port = process.env.PORT || 5000;
 
-// heroku site name : infinite-escarpment-16645
 
 // Middleware 
 app.use(cors());
@@ -53,7 +52,6 @@ async function run() {
         app.get('/users/:email', async (req, res) => {
             const userEmail = req.params.email;
             const query = { email: userEmail };
-            console.log(query);
             const userInfo = await collectionUser.findOne(query);
             res.send(userInfo);
         });
