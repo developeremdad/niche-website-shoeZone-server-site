@@ -154,6 +154,12 @@ async function run() {
             // console.log(result);
         });
 
+        // get review 
+        app.get('/reviews', async (req, res) => {
+            const review = await collectionReview.find({}).toArray();
+            res.json(review);
+        })
+
     }
     finally {
         // await client.close();
