@@ -46,17 +46,17 @@ async function run() {
                 $set: user,
             };
             const result = await collectionUser.updateOne(filter, UserDoc, options)
-            // console.log('New user added: ', result);
             res.json(result)
         })
 
         // Get a single user 
-        // app.get('/users/admin', async (req, res) => {
-        //     const userEmail = req.body.email;
-        //     const query = { email: userEmail };
-        //     const admin = await collectionUser.find(query).toArray();
-        //     res.send(admin);
-        // });
+        app.get('/users/:email', async (req, res) => {
+            const userEmail = req.params.email;
+            const query = { email: userEmail };
+            console.log(query);
+            const userInfo = await collectionUser.findOne(query);
+            res.send(userInfo);
+        });
 
 
         // make admin existing user 
@@ -69,7 +69,6 @@ async function run() {
                     $set: user,
                 };
                 const result = await collectionUser.updateOne(filter, UserDoc);
-                // console.log('Make a new admin : ', result);
                 res.json(result)
             }
             res.json()
