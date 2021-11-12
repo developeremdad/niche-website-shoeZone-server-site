@@ -16,7 +16,7 @@ const client = new MongoClient(uri, { useNewUrlParser: true, useUnifiedTopology:
 
 async function run() {
     try {
-        // connect mongodb
+        // connect mongodb and create collections
         await client.connect();
         const database = client.db('ShoeZone');
         const collectionUser = database.collection('users');
@@ -48,6 +48,15 @@ async function run() {
             res.json(result)
         })
 
+        // Get a single user 
+        // app.get('/users/admin', async (req, res) => {
+        //     const userEmail = req.body.email;
+        //     const query = { email: userEmail };
+        //     const admin = await collectionUser.find(query).toArray();
+        //     res.send(admin);
+        // });
+
+
         // make admin existing user 
         app.put('/makeAdmin', async (req, res) => {
             const user = req.body;
@@ -65,7 +74,7 @@ async function run() {
         })
 
 
-        // create or insert services to database 
+        // create or insert order to database 
         app.post('/products', async (req, res) => {
             const product = req.body;
             const result = await collectionProduct.insertOne(product);
@@ -82,8 +91,8 @@ async function run() {
         app.get('/details/:id', async (req, res) => {
             const id = req.params.id;
             const filter = { _id: ObjectId(id) };
-            const service = await collectionProduct.findOne(filter);
-            res.send(service);
+            const result = await collectionProduct.findOne(filter);
+            res.send(result);
         });
 
 
@@ -120,17 +129,8 @@ async function run() {
             res.json(result);
         });
 
-        // get single order using id 
-        /*  app.get('/manage/:id', async (req, res) => {
-             const id = req.params.id;
-             const query = { _id: ObjectId(id) };
-             const order = await collectionOrder.findOne(query);
-             console.log('Find order with id: ', id);
-             res.send(order);
-         }) */
 
-        //update a single services
-
+        //update a single order
         app.put('/orders/:id', async (req, res) => {
             const id = req.params.id;
             const updatedOrder = req.body;
